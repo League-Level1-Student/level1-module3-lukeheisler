@@ -4,6 +4,7 @@
  */
 
 
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,6 +25,11 @@ import javazoom.jl.player.advanced.AdvancedPlayer;
 
 public class Jukebox implements Runnable, MouseListener {
 
+	JLabel isabelleAlbum;
+	JLabel rainiAlbum;
+	JLabel stop;
+	Song isabelle;
+	Song raini;
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Jukebox());
 	}
@@ -32,8 +38,7 @@ public class Jukebox implements Runnable, MouseListener {
 
 		// 3. Find an mp3 on your computer or on the Internet.
 		// 4. Create a Song
-        Song isabelle = new Song("Isabelle.mp3");
-        Song fiestaSalsaRemix = new Song("FiestaSalsaRemix.mp3");
+        
 		// 5. Play the Song
 		/*
 		 * 6. Create a user interface for your Jukebox so that the user can to
@@ -42,21 +47,28 @@ public class Jukebox implements Runnable, MouseListener {
 		 * cover is clicked, stop the currently playing song, and play the one
 		 * that was selected.
 		 */
+        isabelle = new Song("Isabelle.mp3");
+        raini = new Song("FiestaSalsaRemix.mp3");
         JFrame frame = new JFrame();
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500,500);
         JPanel panel = new JPanel();
         frame.add(panel);
-        JLabel isabelleAlbum = new JLabel();
-        JLabel rainiAlbum = new JLabel();
+        isabelleAlbum = new JLabel();
+        rainiAlbum = new JLabel();
+        stop = new JLabel();
         String isabelleImage = "isabelle.png";
         String rainiImage = "raini.jpg";
         isabelleAlbum = loadImage(isabelleImage);
-        isabelleAlbum.addMouseListener(l);
+        isabelleAlbum.addMouseListener(this);
         rainiAlbum = loadImage(rainiImage);
+        rainiAlbum.addMouseListener(this);
+        stop = loadImage("stop.png");
+        stop.addMouseListener(this);
         panel.add(isabelleAlbum);
         panel.add(rainiAlbum);
+        panel.add(stop);
         frame.pack();
         }
            /* Use this method to add album covers to your Panel. */
@@ -66,7 +78,47 @@ public class Jukebox implements Runnable, MouseListener {
        		return new JLabel(icon);
        	}
        	
-       	
+       	@Override
+       	public void mouseClicked(MouseEvent arg0) {
+       		if(arg0.getSource().equals(isabelleAlbum))	{
+       			raini.stop();
+       			isabelle.stop();
+       			isabelle.play();
+       		}
+       		if(arg0.getSource().equals(rainiAlbum))	{
+       			isabelle.stop();
+       			raini.stop();
+       			raini.play();
+       		}
+       		if(arg0.getSource().equals(stop)) {
+       			isabelle.stop();
+       			raini.stop();
+       		}
+       			
+       	}
+
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
+					
+		}
+
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
 
 }
 
